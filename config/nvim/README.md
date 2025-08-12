@@ -1,57 +1,34 @@
-# 🚀 AstroNvim Development Configuration
+# AstroNvim Template
 
-A clean, stable Neovim configuration built on AstroNvim using only official community packs.
+**NOTE:** This is for AstroNvim v5+
 
-## 🎨 Features
+A template for getting started with [AstroNvim](https://github.com/AstroNvim/AstroNvim)
 
-### Language Support (via AstroCommunity Packs)
-- **TypeScript/JavaScript/React** - `typescript-all-in-one` pack
-- **Python** - `python-ruff` pack with Ruff integration
-- **Go** - `go` pack with gopls
-- **C/C++** - `cpp` pack with clangd
-- **C#/.NET** - `cs-omnisharp` pack (includes Blazor/Razor support)
-- **Web Development** - HTML/CSS and Tailwind CSS packs
-- **Configuration** - JSON, YAML, and Lua packs
+## 🛠️ Installation
 
-### Theme & UI
-- **Tokyo Night Dark** theme
-- **JetBrains Mono Nerd Font** for beautiful icons
-- **Noice.nvim** for enhanced UI
+#### Make a backup of your current nvim and shared folder
 
-### Productivity
-- **Harpoon** for quick file navigation
-- **Auto-save** for convenience
-- **TODO comments** highlighting
-- **Git diff view** integration
+```shell
+mv ~/.config/nvim ~/.config/nvim.bak
+mv ~/.local/share/nvim ~/.local/share/nvim.bak
+mv ~/.local/state/nvim ~/.local/state/nvim.bak
+mv ~/.cache/nvim ~/.cache/nvim.bak
+```
 
-## 🔑 Key Bindings
+#### Create a new user repository from this template
 
-| Binding | Action |
-|---------|--------|
-| `<Space>ff` | Find files |
-| `<Space>fg` | Live grep |
-| `<Space>fb` | Browse buffers |
-| `<Space>ha` | Add to Harpoon |
-| `<Space>hh` | Harpoon menu |
-| `<Space>h1-4` | Navigate to Harpoon files |
-| `<Space>e` | File explorer |
-| `<Space>gg` | Lazygit |
+Press the "Use this template" button above to create a new repository to store your user configuration.
 
-## 🔧 Installation
+You can also just clone this repository directly if you do not want to track your user configuration in GitHub.
 
-This configuration is automatically installed via the dotfiles installer. Language servers are installed automatically by Mason when you first open relevant files.
+#### Clone the repository
 
-## 📝 Blazor/Razor Support
+```shell
+git clone https://github.com/<your_user>/<your_repository> ~/.config/nvim
+```
 
-The configuration includes enhanced support for Blazor/Razor files:
-- Proper filetype detection for `.razor` and `.cshtml` files
-- HTML-like indentation
-- Full C# language server integration via OmniSharp
+#### Start Neovim
 
-## 🎯 Design Philosophy
-
-This configuration prioritizes:
-- **Stability** - Uses only official AstroCommunity packs
-- **Simplicity** - Minimal custom configuration
-- **Completeness** - Full language support out of the box
-- **Maintainability** - Easy to update and extend
+```shell
+nvim
+```
