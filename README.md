@@ -24,8 +24,8 @@ curl -sSL https://raw.githubusercontent.com/schalkuz/dotfiles/main/install.sh | 
 - `~/Code/personal/` - Personal repositories with automatic personal profile
 
 ### 🔀 Multi-Profile Git Setup
-- **Work Profile**: `schalk-conradie` + `schalk.conradie@ec.co.za`
-- **Personal Profile**: `schalkuz` + `schalkuz.sc@gmail.com`
+- **Work Profile**
+- **Personal Profile**
 - Automatic profile switching per repository
 
 ### 🛠️ Custom Scripts
@@ -206,10 +206,6 @@ source ~/.zprofile
 git-profile status        # Check current profile
 git config --list | grep user  # Check git config
 ```
-
-## 🤝 Contributing
-
-Feel free to fork and customize for your own use! If you have improvements that would benefit others, pull requests are welcome.
 
 ## 📄 License
 
