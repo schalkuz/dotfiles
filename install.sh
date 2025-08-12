@@ -221,6 +221,21 @@ install_default_versions() {
     log_success "Default language versions installed"
 }
 
+install_dotnet_tools() {
+    log_section "Installing .NET Global Tools"
+    
+    # Source the shell configuration to ensure .NET is in PATH
+    source "$HOME/.zprofile"
+    
+    if command -v dotnet >/dev/null 2>&1; then
+        log_info "Installing essential .NET global tools..."
+        bash scripts/install-dotnet-tools.sh
+        log_success ".NET global tools installed"
+    else
+        log_warning ".NET not found, skipping tools installation"
+    fi
+}
+
 setup_git_config() {
     log_section "Setting Up Git Configuration"
     
@@ -282,6 +297,7 @@ main() {
     install_shell_config
     install_development_tools
     install_default_versions
+    install_dotnet_tools
     setup_git_config
     print_completion
 }
