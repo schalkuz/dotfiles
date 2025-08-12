@@ -80,6 +80,13 @@ show_dev_env_commands() {
     echo "  dotnet build                   # Build project"
     echo "  dotnet run                     # Run project"
     echo ""
+    echo "📝 Neovim:"
+    echo "  devenv nvim                    # Neovim configuration info"
+    echo "  nvim                           # Start Neovim"
+    echo "  <Space>ff                      # Find files (in Neovim)"
+    echo "  <Space>ha                      # Add to Harpoon (in Neovim)"
+    echo "  <Space>hh                      # Harpoon menu (in Neovim)"
+    echo ""
 }
 
 show_workflow_examples() {
@@ -141,6 +148,7 @@ show_quick_reference() {
     echo "  Node.js: $(nvm current 2>/dev/null || echo 'Not set')"
     echo "  Go: $(go version 2>/dev/null | awk '{print $3}' || echo 'Not set')"
     echo "  .NET: $(dotnet --version 2>/dev/null || echo 'Not set')"
+    echo "  Neovim: $(nvim --version 2>/dev/null | head -1 | awk '{print $2}' || echo 'Not set')"
     echo ""
 }
 

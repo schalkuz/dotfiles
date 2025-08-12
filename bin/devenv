@@ -145,6 +145,38 @@ case "$1" in
             echo "  .NET not installed"
         fi
         ;;
+    nvim|neovim)
+        echo "Neovim Development Environment:"
+        echo "=============================="
+        echo "Configuration: AstroNvim with comprehensive language support"
+        echo ""
+        echo "Key Features:"
+        echo "  • Tokyo Night Dark theme"
+        echo "  • Harpoon for quick file navigation"
+        echo "  • Telescope for fuzzy finding"
+        echo "  • Language servers for all installed languages"
+        echo "  • Git integration with blame and diff views"
+        echo ""
+        echo "Key Bindings:"
+        echo "  <Space>ff      - Find files"
+        echo "  <Space>fg      - Live grep (search in files)"
+        echo "  <Space>fb      - Browse buffers"
+        echo "  <Space>ha      - Add file to Harpoon"
+        echo "  <Space>hh      - Toggle Harpoon menu"
+        echo "  <Space>h1-4    - Navigate to Harpoon files"
+        echo "  <Space>e       - Toggle file explorer"
+        echo "  <Space>gg      - Open Lazygit"
+        echo "  <Space>t       - Open terminal"
+        echo ""
+        echo "Current status:"
+        if command -v nvim >/dev/null 2>&1; then
+            echo "  Version: $(nvim --version | head -1)"
+            echo "  Config: ~/.config/nvim (AstroNvim)"
+            echo "  Font: JetBrains Mono Nerd Font (recommended)"
+        else
+            echo "  Neovim not installed"
+        fi
+        ;;
     *)
         echo "🔧 Development Environment Manager"
         echo "=================================="
@@ -156,6 +188,7 @@ case "$1" in
         echo "  devenv go         - Go/GVM management"
         echo "  devenv c          - C/C++ tools info"
         echo "  devenv dotnet     - .NET development info"
+        echo "  devenv nvim       - Neovim configuration info"
         echo ""
         echo "Quick status:"
         echo "  Python: $(uv python list | grep -v "download available" | head -1 | awk '{print $1}' || echo 'Not installed')"
@@ -163,5 +196,6 @@ case "$1" in
         echo "  Go: $(go version 2>/dev/null | awk '{print $3}' || echo 'Not installed')"
         echo "  C/C++: $(gcc --version 2>/dev/null | head -1 | awk '{print $4}' || echo 'Not installed')"
         echo "  .NET: $(dotnet --version 2>/dev/null || echo 'Not installed')"
+        echo "  Neovim: $(nvim --version 2>/dev/null | head -1 | awk '{print $2}' || echo 'Not installed')"
         ;;
 esac

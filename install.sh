@@ -236,6 +236,14 @@ install_dotnet_tools() {
     fi
 }
 
+install_neovim() {
+    log_section "Installing Neovim Development Environment"
+    
+    log_info "Installing Neovim with AstroNvim configuration..."
+    bash scripts/install-neovim.sh
+    log_success "Neovim development environment installed"
+}
+
 setup_git_config() {
     log_section "Setting Up Git Configuration"
     
@@ -298,6 +306,7 @@ main() {
     install_development_tools
     install_default_versions
     install_dotnet_tools
+    install_neovim
     setup_git_config
     print_completion
 }
