@@ -42,45 +42,17 @@ echo -e "${CYAN}⚙️  Installing AstroNvim configuration...${NC}"
 mkdir -p "$HOME/.config"
 cp -r config/nvim "$HOME/.config/"
 
-# Install language servers and tools
-echo -e "${CYAN}🔧 Installing language servers and development tools...${NC}"
-
-# Install Node.js tools (for TypeScript/React development)
-if command -v npm >/dev/null 2>&1; then
-    echo "Installing TypeScript language server..."
-    npm install -g typescript typescript-language-server
-    
-    echo "Installing React/JSX tools..."
-    npm install -g @styled/typescript-styled-plugin
-    npm install -g eslint prettier
-fi
-
-# Install Python tools
-if command -v pip3 >/dev/null 2>&1; then
-    echo "Installing Python language server..."
-    pip3 install --user python-lsp-server[all]
-    pip3 install --user black isort
-fi
-
-# Install additional formatters
-if command -v cargo >/dev/null 2>&1; then
-    echo "Installing Rust-based formatters..."
-    cargo install stylua # Lua formatter
-fi
-
-# Install Go tools if Go is available
-if command -v go >/dev/null 2>&1; then
-    echo "Installing Go language server..."
-    go install golang.org/x/tools/gopls@latest
-    go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-fi
-
-# Install .NET tools if .NET is available
-if command -v dotnet >/dev/null 2>&1; then
-    echo "Installing .NET language servers..."
-    # OmniSharp will be installed automatically by Mason in AstroNvim
-    echo ".NET support will be configured automatically by AstroNvim"
-fi
+# Language servers and tools will be installed automatically by AstroNvim's Mason
+echo -e "${CYAN}🔧 Language servers will be installed automatically by AstroNvim...${NC}"
+echo "AstroNvim will use Mason to install language servers for:"
+echo "  • TypeScript/JavaScript/React (typescript-all-in-one pack)"
+echo "  • Python with Ruff (python-ruff pack)"
+echo "  • Go with gopls (go pack)"
+echo "  • C/C++ with clangd (cpp pack)"
+echo "  • C#/.NET with OmniSharp including Blazor/Razor (cs-omnisharp pack)"
+echo "  • HTML/CSS and Tailwind CSS"
+echo "  • JSON, YAML, and Lua"
+echo ""
 
 echo ""
 echo -e "${GREEN}✅ Neovim installation complete!${NC}"
