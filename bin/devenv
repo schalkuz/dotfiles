@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# Development Environment Helper
+# Usage: devenv [command]
+
+case "$1" in
+    status|info)
+        echo "🔧 Development Environment Status"
+        echo "=================================="
+        echo ""
+        echo "🐍 Python (UV managed):"
+        uv python list | grep -v "download available" | head -5
+        echo ""
+        echo "🟢 Node.js (NVM managed):"
+        echo "  Current: $(nvm current)"
+        echo "  Available: $(nvm list | tr '\n' ' ')"
+        echo ""
+        echo "🔵 Go (GVM managed):"
+        echo "  Current: $(go version 2>/dev/null || echo 'Not active')"
+        echo "  Available: $(gvm list 2>/dev/null | tr '\n' ' ' || echo 'Run: gvm list')"
+        echo ""
+        echo "⚙️  C/C++ Tools:"
+        echo "  GCC/Clang: $(gcc --version | head -1)"
+        echo "  CMake: $(cmake --version | head -1)"
+        echo "  pkg-config: v$(pkg-config --version)"
+        echo ""
+        ;;
+    python|py)
+        case "$2" in
+            install)
+                echo "Installing Python $3..."
+                uv python install "$3"
+                ;;
+            list)
+                uv python list
+                ;;
+            use)
+                echo "To use a specific Python version in a project:"
+                echo "  cd your-project"
+                echo "  uv python pin $3"
+                ;;
+            *)
+                echo "Python (UV) commands:"
+                echo "  devenv python install 3.11  # Install Python 3.11"
+                echo "  devenv python list          # List available Python versions"
+                echo "  devenv python use 3.11      # Pin Python version in project"
+                echo ""
+                echo "Common UV commands:"
+                echo "  uv init                      # Initialize new Python project"
+                echo "  uv add requests              # Add dependency"
+                echo "  uv run python script.py     # Run Python script"
+                ;;
+        esac
+        ;;
+    node|js)
+        case "$2" in
+            install)
+                nvm install "$3"
+                ;;
+            use)
+                nvm use "$3"
+                ;;
+            list)
+                nvm list
+                ;;
+            *)
+                echo "Node.js (NVM) commands:"
+                echo "  devenv node install 20      # Install Node.js v20"
+                echo "  devenv node use 18          # Switch to Node.js v18"
+                echo "  devenv node list            # List installed versions"
+                echo ""
+                echo "Current version: $(nvm current)"
+                ;;
+        esac
+        ;;
+    go)
+        case "$2" in
+            install)
+                gvm install "go$3" -B
+                ;;
+            use)
+                gvm use "go$3" --default
+                ;;
+            list)
+                gvm list
+                ;;
+            *)
+                echo "Go (GVM) commands:"
+                echo "  devenv go install 1.21.0    # Install Go 1.21.0"
+                echo "  devenv go use 1.21.0        # Switch to Go 1.21.0"
+                echo "  devenv go list              # List installed versions"
+                echo ""
+                echo "Current version: $(go version 2>/dev/null || echo 'Not set')"
+                ;;
+        esac
+        ;;
+    c|cpp)
+        echo "C/C++ Development Tools:"
+        echo "========================"
+        echo "Compilers:"
+        echo "  gcc, clang    - C/C++ compilers"
+        echo "  g++, clang++  - C++ compilers"
+        echo ""
+        echo "Build Tools:"
+        echo "  make          - Build automation"
+        echo "  cmake         - Cross-platform build system"
+        echo "  pkg-config    - Library metadata tool"
+        echo ""
+        echo "Example usage:"
+        echo "  gcc -o hello hello.c"
+        echo "  clang++ -o app main.cpp"
+        echo "  cmake ."
+        echo "  make"
+        ;;
+    *)
+        echo "🔧 Development Environment Manager"
+        echo "=================================="
+        echo ""
+        echo "Commands:"
+        echo "  devenv status     - Show all installed tools"
+        echo "  devenv python     - Python/UV management"
+        echo "  devenv node       - Node.js/NVM management" 
+        echo "  devenv go         - Go/GVM management"
+        echo "  devenv c          - C/C++ tools info"
+        echo ""
+        echo "Quick status:"
+        echo "  Python: $(uv python list | grep -v "download available" | head -1 | awk '{print $1}' || echo 'Not installed')"
+        echo "  Node.js: $(nvm current 2>/dev/null || echo 'Not installed')"
+        echo "  Go: $(go version 2>/dev/null | awk '{print $3}' || echo 'Not installed')"
+        echo "  C/C++: $(gcc --version 2>/dev/null | head -1 | awk '{print $4}' || echo 'Not installed')"
+        ;;
+esac

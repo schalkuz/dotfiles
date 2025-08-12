@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Git Profile Switcher
+# Usage: git-profile work|personal
+
+case "$1" in
+    work)
+        echo "Setting up work profile..."
+        git config user.email "schalk.conradie@ec.co.za"
+        gh auth switch --hostname github.com --user schalk-conradie
+        echo "✅ Switched to work profile"
+        echo "📧 Email: $(git config user.email)"
+        echo "👤 GitHub user: $(gh auth status 2>&1 | grep 'Logged in' | awk '{print $6}')"
+        ;;
+    personal)
+        echo "Setting up personal profile..."
+        git config user.email "schalkuz.sc@gmail.com"
+        gh auth switch --hostname github.com --user schalkuz
+        echo "✅ Switched to personal profile"
+        echo "📧 Email: $(git config user.email)"
+        echo "👤 GitHub user: $(gh auth status 2>&1 | grep 'Logged in' | awk '{print $6}')"
+        ;;
+    status)
+        echo "Current configuration:"
+        echo "📧 Email: $(git config user.email || echo 'Not set')"
+        echo "👤 GitHub user: $(gh auth status 2>&1 | grep 'Logged in' | awk '{print $6}' || echo 'Not authenticated')"
+        ;;
+    *)
+        echo "Usage: git-profile {work|personal|status}"
+        echo ""
+        echo "Commands:"
+        echo "  work     - Switch to work profile"
+        echo "  personal - Switch to personal profile"  
+        echo "  status   - Show current profile"
+        exit 1
+        ;;
+esac

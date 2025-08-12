@@ -1,0 +1,166 @@
+#!/bin/bash
+
+# Development Commands Cheat Sheet
+# Usage: dev [section]
+
+show_header() {
+    echo "🛠️  Development Environment Cheat Sheet"
+    echo "========================================"
+    echo ""
+}
+
+show_git_commands() {
+    echo "📁 GIT & GITHUB MANAGEMENT"
+    echo "==========================="
+    echo ""
+    echo "🔧 Profile Management:"
+    echo "  git-profile work         # Switch to work profile (schalk-conradie + schalk.conradie@ec.co.za)"
+    echo "  git-profile personal     # Switch to personal profile (schalkuz + schalkuz.sc@gmail.com)"
+    echo "  git-profile status       # Show current profile"
+    echo ""
+    echo "📦 Enhanced Cloning:"
+    echo "  git-clone <repo-url> work     # Clone to ~/Code/work/ + setup work profile"
+    echo "  git-clone <repo-url> personal # Clone to ~/Code/personal/ + setup personal profile"
+    echo "  git-clone <repo-url>          # Auto-detect profile from URL"
+    echo ""
+    echo "📂 Navigation:"
+    echo "  cdcode        # cd ~/Code"
+    echo "  cdwork        # cd ~/Code/work"
+    echo "  cdpersonal    # cd ~/Code/personal"
+    echo "  lswork        # List work repositories"
+    echo "  lspersonal    # List personal repositories"
+    echo ""
+}
+
+show_dev_env_commands() {
+    echo "🔧 DEVELOPMENT ENVIRONMENTS"
+    echo "============================"
+    echo ""
+    echo "📊 Environment Status:"
+    echo "  devenv               # Show help + quick status"
+    echo "  devenv status        # Detailed status of all tools"
+    echo ""
+    echo "🐍 Python (UV):"
+    echo "  devenv python                    # Python help"
+    echo "  devenv python install 3.11      # Install Python 3.11"
+    echo "  devenv python list              # List Python versions"
+    echo "  uv init my-project              # Create new Python project"
+    echo "  uv add requests flask           # Add dependencies"
+    echo "  uv run python app.py            # Run Python script"
+    echo "  py script.py                    # Shortcut for uv run python"
+    echo "  pyi package                     # Shortcut for uv add"
+    echo "  pyin                            # Shortcut for uv init"
+    echo ""
+    echo "🟢 Node.js (NVM):"
+    echo "  devenv node                     # Node.js help"
+    echo "  devenv node install 20         # Install Node.js v20"
+    echo "  devenv node use 18             # Switch to Node.js v18"
+    echo "  devenv node list               # List Node.js versions"
+    echo "  node-list                      # Shortcut for nvm list"
+    echo "  node-use 18                    # Shortcut for nvm use 18"
+    echo ""
+    echo "🔵 Go (GVM):"
+    echo "  devenv go                      # Go help"
+    echo "  devenv go install 1.21.0      # Install Go 1.21.0"
+    echo "  devenv go use 1.21.0          # Switch to Go 1.21.0"
+    echo "  devenv go list                 # List Go versions"
+    echo "  go-list                        # Shortcut for gvm list"
+    echo "  go-use 1.21.0                  # Shortcut for gvm use"
+    echo ""
+    echo "⚙️  C/C++:"
+    echo "  devenv c                       # C/C++ tools info"
+    echo "  gcc -o hello hello.c           # Compile C program"
+    echo "  clang++ -o app main.cpp        # Compile C++ program"
+    echo "  cmake . && make                # Build with CMake"
+    echo ""
+}
+
+show_workflow_examples() {
+    echo "🚀 WORKFLOW EXAMPLES"
+    echo "===================="
+    echo ""
+    echo "📝 Start New Personal Python Project:"
+    echo "  cdpersonal"
+    echo "  git-clone https://github.com/schalkuz/my-app personal"
+    echo "  cd my-app"
+    echo "  uv init"
+    echo "  uv add fastapi"
+    echo "  # git-profile personal is already set!"
+    echo ""
+    echo "💼 Start New Work Node.js Project:"
+    echo "  cdwork"
+    echo "  git-clone https://github.com/company/project work"
+    echo "  cd project"
+    echo "  npm init -y"
+    echo "  npm install express"
+    echo "  # git-profile work is already set!"
+    echo ""
+    echo "🔧 Switch Between Language Versions:"
+    echo "  devenv python install 3.11 && uv python pin 3.11"
+    echo "  devenv node use 18"
+    echo "  devenv go use 1.21.0"
+    echo ""
+    echo "📊 Check Everything:"
+    echo "  devenv status           # See all tool versions"
+    echo "  git-profile status      # See current git profile"
+    echo ""
+}
+
+show_quick_reference() {
+    echo "⚡ QUICK REFERENCE"
+    echo "=================="
+    echo ""
+    echo "Most Used Commands:"
+    echo "  dev                     # This help (what you just ran!)"
+    echo "  devenv                  # Development environment manager"
+    echo "  git-profile personal    # Switch to personal GitHub profile"
+    echo "  git-profile work        # Switch to work GitHub profile"
+    echo "  cdpersonal              # Go to personal projects"
+    echo "  cdwork                  # Go to work projects"
+    echo "  git-clone <url>         # Smart clone with profile setup"
+    echo ""
+    echo "Current Status:"
+    echo "  Location: $(pwd | sed "s|$HOME|~|")"
+    echo "  Git Profile: $(git config user.email 2>/dev/null || echo 'Not set')"
+    echo "  Python: $(uv python list | grep -v "download available" | head -1 | awk '{print $1}' | cut -d'-' -f2 2>/dev/null || echo 'Not set')"
+    echo "  Node.js: $(nvm current 2>/dev/null || echo 'Not set')"
+    echo "  Go: $(go version 2>/dev/null | awk '{print $3}' || echo 'Not set')"
+    echo ""
+}
+
+# Main script logic
+case "$1" in
+    git|github)
+        show_header
+        show_git_commands
+        ;;
+    env|environment|devenv)
+        show_header
+        show_dev_env_commands
+        ;;
+    workflow|examples)
+        show_header
+        show_workflow_examples
+        ;;
+    quick|ref|reference)
+        show_header
+        show_quick_reference
+        ;;
+    all|full)
+        show_header
+        show_git_commands
+        show_dev_env_commands
+        show_workflow_examples
+        ;;
+    *)
+        show_header
+        show_quick_reference
+        echo "📚 Detailed Help Sections:"
+        echo "  dev git          # Git & GitHub commands"
+        echo "  dev env          # Development environment commands"
+        echo "  dev workflow     # Example workflows"
+        echo "  dev all          # Show everything"
+        echo ""
+        echo "💡 Tip: Bookmark this command - run 'dev' anytime you forget something!"
+        ;;
+esac

@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# Enhanced Git Clone with Profile Auto-Setup
+# Usage: git-clone <repo-url> [profile]
+# Example: git-clone https://github.com/user/repo work
+
+REPO_URL="$1"
+PROFILE="$2"
+
+if [ -z "$REPO_URL" ]; then
+    echo "Usage: git-clone <repo-url> [profile]"
+    echo ""
+    echo "Profiles: work, personal"
+    echo ""
+    echo "Examples:"
+    echo "  git-clone https://github.com/company/repo work"
+    echo "  git-clone https://github.com/schalkuz/repo personal"
+    echo "  git-clone git@github.com:user/repo.git personal"
+    exit 1
+fi
+
+# Auto-detect profile from GitHub username in URL if not specified
+if [ -z "$PROFILE" ]; then
+    if [[ "$REPO_URL" =~ schalk-conradie|ec\.co\.za ]]; then
+        PROFILE="work"
+        echo "🔍 Auto-detected work profile from URL"
+    elif [[ "$REPO_URL" =~ schalkuz ]]; then
+        PROFILE="personal"
+        echo "🔍 Auto-detected personal profile from URL"
+    else
+        echo "❓ Could not auto-detect profile. Please specify: work or personal"
+        exit 1
+    fi
+fi
+
+# Validate profile
+if [[ "$PROFILE" != "work" && "$PROFILE" != "personal" ]]; then
+    echo "❌ Invalid profile. Use 'work' or 'personal'"
+    exit 1
+fi
+
+# Set target directory
+TARGET_DIR="$HOME/Code/$PROFILE"
+
+# Create directory if it doesn't exist
+mkdir -p "$TARGET_DIR"
+
+# Extract repo name from URL
+REPO_NAME=$(basename "$REPO_URL" .git)
+
+echo "📁 Cloning to: $TARGET_DIR/$REPO_NAME"
+echo "👤 Using profile: $PROFILE"
+
+# Clone the repository
+cd "$TARGET_DIR"
+git clone "$REPO_URL"
+
+if [ $? -eq 0 ]; then
+    # Enter the cloned directory
+    cd "$REPO_NAME"
+    
+    # Set up the profile
+    echo ""
+    echo "🔧 Setting up $PROFILE profile..."
+    git-profile "$PROFILE"
+    
+    echo ""
+    echo "✅ Repository cloned and configured!"
+    echo "📂 Location: $TARGET_DIR/$REPO_NAME"
+    echo "💡 To navigate: cd ~/Code/$PROFILE/$REPO_NAME"
+else
+    echo "❌ Failed to clone repository"
+    exit 1
+fi

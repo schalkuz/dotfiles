@@ -1,0 +1,135 @@
+# Schalk's Development Environment Configuration
+# This file is managed by dotfiles: https://github.com/schalkuz/dotfiles
+
+# ================================================
+# HOMEBREW SETUP
+# ================================================
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# ================================================
+# PATH CONFIGURATION  
+# ================================================
+export PATH="$HOME/.local/bin:$PATH"
+
+# ================================================
+# NVM (Node Version Manager)
+# ================================================
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# ================================================
+# GVM (Go Version Manager)
+# ================================================
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+
+# Load the latest Go version by default
+if command -v gvm >/dev/null 2>&1; then
+    gvm use go1.23.4 >/dev/null 2>&1
+fi
+
+# ================================================
+# GIT REPOSITORY NAVIGATION ALIASES
+# ================================================
+alias cdcode="cd ~/Code"
+alias cdwork="cd ~/Code/work"
+alias cdpersonal="cd ~/Code/personal"
+
+# List repositories
+alias lswork="ls -la ~/Code/work"
+alias lspersonal="ls -la ~/Code/personal"
+
+# ================================================
+# DEVELOPMENT SHORTCUTS
+# ================================================
+alias py="uv run python"
+alias pyi="uv add" 
+alias pyin="uv init"
+alias node-list="nvm list"
+alias node-use="nvm use"
+alias go-list="gvm list"
+alias go-use="gvm use"
+
+# ================================================
+# DEVELOPMENT CHEAT SHEET ALIASES
+# ================================================
+alias help="dev"
+alias cheat="dev"
+alias commands="dev"
+
+# ================================================
+# CUSTOM FUNCTIONS
+# ================================================
+
+# Quick project setup function
+mkproject() {
+    if [ -z "$1" ]; then
+        echo "Usage: mkproject <name> [type]"
+        echo "Types: python, node, go"
+        return 1
+    fi
+    
+    local name="$1"
+    local type="${2:-python}"
+    local current_dir=$(basename "$PWD")
+    
+    if [[ "$current_dir" == "work" ]]; then
+        profile="work"
+    elif [[ "$current_dir" == "personal" ]]; then
+        profile="personal"
+    else
+        echo "Please run this from ~/Code/work or ~/Code/personal"
+        return 1
+    fi
+    
+    mkdir -p "$name"
+    cd "$name"
+    
+    case "$type" in
+        python|py)
+            uv init
+            git-profile "$profile"
+            echo "✅ Python project '$name' created with $profile profile"
+            ;;
+        node|js)
+            npm init -y
+            git-profile "$profile"
+            echo "✅ Node.js project '$name' created with $profile profile"
+            ;;
+        go)
+            go mod init "$name"
+            git-profile "$profile"
+            echo "✅ Go project '$name' created with $profile profile"
+            ;;
+        *)
+            echo "Unknown project type: $type"
+            echo "Supported types: python, node, go"
+            return 1
+            ;;
+    esac
+    
+    git init
+    echo "# $name" > README.md
+    echo "Project '$name' ready!"
+}
+
+# Quick status function
+status() {
+    echo "🔧 Quick Development Status"
+    echo "=========================="
+    echo "📂 Location: $(pwd | sed "s|$HOME|~|")"
+    echo "📧 Git Profile: $(git config user.email 2>/dev/null || echo 'Not set')"
+    echo "🐍 Python: $(uv python list | grep -v "download available" | head -1 | awk '{print $1}' | cut -d'-' -f2 2>/dev/null || echo 'Not set')"
+    echo "🟢 Node.js: $(nvm current 2>/dev/null || echo 'Not set')"
+    echo "🔵 Go: $(go version 2>/dev/null | awk '{print $3}' || echo 'Not set')"
+}
+
+# ================================================
+# WELCOME MESSAGE (only for interactive shells)
+# ================================================
+if [[ $- == *i* ]]; then
+    echo ""
+    echo "🛠️  Development environment loaded!"
+    echo "   Run 'dev' for available commands"
+    echo ""
+fi
