@@ -24,6 +24,14 @@ case "$1" in
         echo "  CMake: $(cmake --version | head -1)"
         echo "  pkg-config: v$(pkg-config --version)"
         echo ""
+        echo "🔷 .NET SDKs:"
+        if command -v dotnet >/dev/null 2>&1; then
+            echo "  Current: $(dotnet --version 2>/dev/null || echo 'Not active')"
+            echo "  Available: $(dotnet --list-sdks 2>/dev/null | awk '{print $1}' | tr '\n' ' ' || echo 'None')"
+        else
+            echo "  Not installed"
+        fi
+        echo ""
         ;;
     python|py)
         case "$2" in
@@ -112,6 +120,31 @@ case "$1" in
         echo "  cmake ."
         echo "  make"
         ;;
+    dotnet|net)
+        echo ".NET Development:"
+        echo "================="
+        echo "SDK Management:"
+        echo "  dotnet --list-sdks           # List installed SDKs"
+        echo "  dotnet --version             # Show current version"
+        echo ""
+        echo "Project Management:"
+        echo "  dotnet new console           # Create console app"
+        echo "  dotnet new webapi            # Create web API"
+        echo "  dotnet new blazor            # Create Blazor app"
+        echo "  dotnet add package <pkg>     # Add NuGet package"
+        echo ""
+        echo "Build & Run:"
+        echo "  dotnet build                 # Build project"
+        echo "  dotnet run                   # Run project"
+        echo "  dotnet test                  # Run tests"
+        echo ""
+        echo "Current SDKs:"
+        if command -v dotnet >/dev/null 2>&1; then
+            dotnet --list-sdks
+        else
+            echo "  .NET not installed"
+        fi
+        ;;
     *)
         echo "🔧 Development Environment Manager"
         echo "=================================="
@@ -122,11 +155,13 @@ case "$1" in
         echo "  devenv node       - Node.js/NVM management" 
         echo "  devenv go         - Go/GVM management"
         echo "  devenv c          - C/C++ tools info"
+        echo "  devenv dotnet     - .NET development info"
         echo ""
         echo "Quick status:"
         echo "  Python: $(uv python list | grep -v "download available" | head -1 | awk '{print $1}' || echo 'Not installed')"
         echo "  Node.js: $(nvm current 2>/dev/null || echo 'Not installed')"
         echo "  Go: $(go version 2>/dev/null | awk '{print $3}' || echo 'Not installed')"
         echo "  C/C++: $(gcc --version 2>/dev/null | head -1 | awk '{print $4}' || echo 'Not installed')"
+        echo "  .NET: $(dotnet --version 2>/dev/null || echo 'Not installed')"
         ;;
 esac

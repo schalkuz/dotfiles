@@ -31,7 +31,7 @@ print_header() {
     echo ""
     echo -e "${CYAN}This will install:${NC}"
     echo -e "${CYAN}• Homebrew package manager${NC}"
-    echo -e "${CYAN}• Development tools (Python UV, Node NVM, Go GVM)${NC}"
+    echo -e "${CYAN}• Development tools (Python UV, Node NVM, Go GVM, .NET)${NC}"
     echo -e "${CYAN}• GitHub CLI with multi-profile support${NC}"
     echo -e "${CYAN}• Custom scripts and aliases${NC}"
     echo -e "${CYAN}• Directory structure for projects${NC}"
@@ -181,6 +181,15 @@ install_development_tools() {
     log_info "Installing build tools..."
     brew install cmake pkg-config
     
+    # Install .NET SDK
+    log_info "Installing .NET SDK..."
+    brew install --cask dotnet-sdk
+    
+    # Install additional .NET versions
+    log_info "Installing .NET 8 and .NET 10 preview..."
+    curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 8.0
+    curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 10.0
+    
     log_success "Development tools installed"
 }
 
@@ -247,6 +256,7 @@ print_completion() {
     echo -e "${YELLOW}• git-profile work      - Switch to work GitHub profile${NC}"
     echo -e "${YELLOW}• cdpersonal           - Go to personal projects${NC}"
     echo -e "${YELLOW}• cdwork               - Go to work projects${NC}"
+    echo -e "${YELLOW}• mkproject myapp dotnet - Create new .NET project${NC}"
     echo ""
     echo -e "${PURPLE}Happy coding! 🚀${NC}"
 }

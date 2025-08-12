@@ -11,6 +11,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # ================================================
 export PATH="$HOME/.local/bin:$PATH"
 
+# Add .NET to PATH
+export PATH="$HOME/.dotnet:$PATH"
+export DOTNET_ROOT="$HOME/.dotnet"
+
 # ================================================
 # NVM (Node Version Manager)
 # ================================================
@@ -50,6 +54,10 @@ alias node-use="nvm use"
 alias go-list="gvm list"
 alias go-use="gvm use"
 
+# .NET shortcuts
+alias dotnet-sdks="dotnet --list-sdks"
+alias dotnet-info="dotnet --info"
+
 # ================================================
 # DEVELOPMENT CHEAT SHEET ALIASES
 # ================================================
@@ -65,7 +73,7 @@ alias commands="dev"
 mkproject() {
     if [ -z "$1" ]; then
         echo "Usage: mkproject <name> [type]"
-        echo "Types: python, node, go"
+    echo "Types: python, node, go, dotnet, webapi"
         return 1
     fi
     
@@ -101,9 +109,19 @@ mkproject() {
             git-profile "$profile"
             echo "✅ Go project '$name' created with $profile profile"
             ;;
+        dotnet|net)
+            dotnet new console
+            git-profile "$profile"
+            echo "✅ .NET project '$name' created with $profile profile"
+            ;;
+        webapi)
+            dotnet new webapi
+            git-profile "$profile"
+            echo "✅ .NET Web API project '$name' created with $profile profile"
+            ;;
         *)
             echo "Unknown project type: $type"
-            echo "Supported types: python, node, go"
+            echo "Supported types: python, node, go, dotnet, webapi"
             return 1
             ;;
     esac
@@ -122,6 +140,7 @@ status() {
     echo "🐍 Python: $(uv python list | grep -v "download available" | head -1 | awk '{print $1}' | cut -d'-' -f2 2>/dev/null || echo 'Not set')"
     echo "🟢 Node.js: $(nvm current 2>/dev/null || echo 'Not set')"
     echo "🔵 Go: $(go version 2>/dev/null | awk '{print $3}' || echo 'Not set')"
+    echo "🔷 .NET: $(dotnet --version 2>/dev/null || echo 'Not set')"
 }
 
 # ================================================

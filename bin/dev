@@ -73,6 +73,13 @@ show_dev_env_commands() {
     echo "  clang++ -o app main.cpp        # Compile C++ program"
     echo "  cmake . && make                # Build with CMake"
     echo ""
+    echo "🔷 .NET:"
+    echo "  devenv dotnet                  # .NET development info"
+    echo "  dotnet new console             # Create console app"
+    echo "  dotnet new webapi              # Create web API"
+    echo "  dotnet build                   # Build project"
+    echo "  dotnet run                     # Run project"
+    echo ""
 }
 
 show_workflow_examples() {
@@ -95,10 +102,18 @@ show_workflow_examples() {
     echo "  npm install express"
     echo "  # git-profile work is already set!"
     echo ""
+    echo "🔷 Start New .NET Project:"
+    echo "  cdpersonal"
+    echo "  mkdir my-dotnet-app && cd my-dotnet-app"
+    echo "  dotnet new webapi"
+    echo "  git-profile personal"
+    echo "  dotnet run"
+    echo ""
     echo "🔧 Switch Between Language Versions:"
     echo "  devenv python install 3.11 && uv python pin 3.11"
     echo "  devenv node use 18"
     echo "  devenv go use 1.21.0"
+    echo "  dotnet --list-sdks              # Check available .NET versions"
     echo ""
     echo "📊 Check Everything:"
     echo "  devenv status           # See all tool versions"
@@ -125,6 +140,7 @@ show_quick_reference() {
     echo "  Python: $(uv python list | grep -v "download available" | head -1 | awk '{print $1}' | cut -d'-' -f2 2>/dev/null || echo 'Not set')"
     echo "  Node.js: $(nvm current 2>/dev/null || echo 'Not set')"
     echo "  Go: $(go version 2>/dev/null | awk '{print $3}' || echo 'Not set')"
+    echo "  .NET: $(dotnet --version 2>/dev/null || echo 'Not set')"
     echo ""
 }
 

@@ -17,6 +17,7 @@ curl -sSL https://raw.githubusercontent.com/schalkuz/dotfiles/main/install.sh | 
 - **Node.js** via NVM - Node Version Manager for multiple Node.js versions
 - **Go** via GVM - Go Version Manager for multiple Go versions
 - **C/C++** - Xcode Command Line Tools with CMake and pkg-config
+- **.NET** - Multiple SDK versions (8, 9, 10 preview)
 
 ### 📁 Project Organization
 - `~/Code/work/` - Work repositories with automatic work profile
@@ -56,6 +57,8 @@ git-clone <repo-url>             # Auto-detect profile from URL
 mkproject myapp python          # Create new Python project
 mkproject webapp node           # Create new Node.js project
 mkproject service go             # Create new Go project
+mkproject api dotnet            # Create new .NET console project
+mkproject webapi webapi         # Create new .NET Web API project
 ```
 
 ### 🔧 Development Environment
@@ -64,6 +67,7 @@ devenv status                    # Show all tool versions
 devenv python install 3.11      # Install Python 3.11
 devenv node install 20          # Install Node.js v20
 devenv go install 1.21.0        # Install Go 1.21.0
+devenv dotnet                   # Show .NET information and commands
 ```
 
 ### ⚡ Quick Shortcuts
@@ -75,6 +79,8 @@ node-list                       # List Node.js versions (nvm list)
 node-use 18                     # Switch to Node.js v18 (nvm use 18)
 go-list                         # List Go versions (gvm list)
 go-use 1.21.0                   # Switch to Go version (gvm use)
+dotnet-sdks                     # List .NET SDKs (dotnet --list-sdks)
+dotnet-info                     # Show .NET info (dotnet --info)
 ```
 
 ## 🎯 Example Workflows
@@ -95,11 +101,20 @@ mkproject company-dashboard node
 git-clone https://github.com/company/dashboard work
 ```
 
+### 🔷 Start New .NET Project
+```bash
+cdpersonal
+mkproject my-api webapi         # Web API project
+# or
+mkproject console-app dotnet    # Console application
+```
+
 ### 🔄 Switch Between Language Versions
 ```bash
 devenv python install 3.11 && uv python pin 3.11
 devenv node use 18
 devenv go use 1.21.0
+dotnet --list-sdks              # Check available .NET versions
 ```
 
 ## 📂 Directory Structure
