@@ -3,6 +3,9 @@
 # Development Environment Helper
 # Usage: devenv [command]
 
+# Source gvm if available
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+
 case "$1" in
     status|info)
         echo "🔧 Development Environment Status"
@@ -87,7 +90,9 @@ case "$1" in
                 gvm install "go$3" -B
                 ;;
             use)
-                gvm use "go$3" --default
+                # Remove 'go' prefix if present
+                version="${3#go}"
+                gvm use "go$version" --default
                 ;;
             list)
                 gvm list
